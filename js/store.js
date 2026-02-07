@@ -13,7 +13,7 @@ const Store = {
             apiUrl: 'https://api.openai.com/v1/chat/completions',
             model: 'gpt-4o-mini',
             sound: false,
-            theme: 'dark',
+            theme: 'light',
             lang: 'en'
         },
         character: {

@@ -1,887 +1,484 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ADHD Living — Quest Board</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ADHD Living</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚔</text></svg>">
 </head>
 <body>
-    <!-- Particle background -->
-    <canvas id="particle-canvas"></canvas>
 
-    <!-- Top Navigation Bar -->
-    <nav class="topbar">
-        <div class="topbar-left">
-            <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">☰</button>
-            <a href="#" class="brand" data-page="dashboard">⚔ ADHD Living</a>
-        </div>
-        <div class="topbar-center">
-            <!-- Status bars mini view -->
-            <div class="mini-status">
-                <div class="mini-bar hp" title="Physical HP">
-                    <span class="mini-bar-icon">❤</span>
-                    <div class="mini-bar-track"><div class="mini-bar-fill" id="mini-hp-fill"></div></div>
-                </div>
-                <div class="mini-bar mp" title="Mental MP">
-                    <span class="mini-bar-icon">💎</span>
-                    <div class="mini-bar-track"><div class="mini-bar-fill" id="mini-mp-fill"></div></div>
-                </div>
-                <div class="mini-bar xp" title="Experience XP">
-                    <span class="mini-bar-icon">⭐</span>
-                    <div class="mini-bar-track"><div class="mini-bar-fill" id="mini-xp-fill"></div></div>
-                </div>
-            </div>
-        </div>
-        <div class="topbar-right">
-            <div class="gold-display" title="Gold">
-                <span class="gold-icon">🪙</span>
-                <span class="gold-count" id="gold-count">0</span>
-            </div>
-            <div class="level-display" title="Level">
-                <span class="level-badge" id="level-badge">Lv.1</span>
-            </div>
-            <button class="topbar-btn" id="lang-toggle" title="中/EN">中</button>
-            <button class="topbar-btn" id="theme-toggle" title="Toggle theme">☀</button>
-        </div>
-    </nav>
+<main class="app" id="app">
 
-    <!-- Sidebar Navigation -->
-    <aside class="sidebar" id="sidebar">
-        <div class="sidebar-profile">
-            <div class="avatar-frame">
-                <div class="avatar" id="avatar">🧙</div>
+    <!-- ========== NOW VIEW ========== -->
+    <section class="view active" id="view-now">
+        <div class="now-header">
+            <div>
+                <h1 class="greeting-text" id="greeting-text">Good evening</h1>
+                <p class="greeting-name" id="greeting-name">Wanderer</p>
             </div>
-            <div class="profile-name" id="profile-name">Wanderer</div>
-            <div class="profile-class" id="profile-class">Ranger</div>
+            <button class="icon-btn" id="open-settings" aria-label="Settings">⚙️</button>
         </div>
-        <nav class="sidebar-nav">
-            <a href="#" class="sidebar-link active" data-page="dashboard">
-                <span class="sidebar-icon">🏠</span>
-                <span class="sidebar-label">Dashboard</span>
-            </a>
-            <a href="#" class="sidebar-link" data-page="tasks">
-                <span class="sidebar-icon">⚔️</span>
-                <span class="sidebar-label">Quest Board</span>
-            </a>
-            <a href="#" class="sidebar-link" data-page="backlog">
-                <span class="sidebar-icon">📦</span>
-                <span class="sidebar-label">Vault</span>
-            </a>
-            <a href="#" class="sidebar-link" data-page="weekly">
-                <span class="sidebar-icon">📜</span>
-                <span class="sidebar-label">Weekly Plan</span>
-            </a>
-            <a href="#" class="sidebar-link" data-page="habits">
-                <span class="sidebar-icon">🃏</span>
-                <span class="sidebar-label">Habit Cards</span>
-            </a>
-            <a href="#" class="sidebar-link" data-page="transition">
-                <span class="sidebar-icon">🎲</span>
-                <span class="sidebar-label">Transition</span>
-            </a>
-            <a href="#" class="sidebar-link" data-page="supervisor">
-                <span class="sidebar-icon">🛡️</span>
-                <span class="sidebar-label">Supervisor</span>
-            </a>
-            <a href="#" class="sidebar-link" data-page="records">
-                <span class="sidebar-icon">🔥</span>
-                <span class="sidebar-label">Campfire Log</span>
-            </a>
-            <a href="#" class="sidebar-link" data-page="shop">
-                <span class="sidebar-icon">🏪</span>
-                <span class="sidebar-label">Shop & RPG</span>
-            </a>
-            <a href="#" class="sidebar-link" data-page="ai">
-                <span class="sidebar-icon">🤖</span>
-                <span class="sidebar-label">AI Companion</span>
-            </a>
-        </nav>
-        <div class="sidebar-footer">
-            <button class="sidebar-link" id="settings-btn">
-                <span class="sidebar-icon">⚙️</span>
-                <span class="sidebar-label">Settings</span>
+
+        <div class="energy-selector">
+            <p class="prompt-text">How's your energy?</p>
+            <div class="energy-options" id="energy-options">
+                <button class="energy-opt" data-energy="green">
+                    <span class="energy-emoji">⚡</span><span>Good</span>
+                </button>
+                <button class="energy-opt active" data-energy="yellow">
+                    <span class="energy-emoji">🔋</span><span>Okay</span>
+                </button>
+                <button class="energy-opt" data-energy="red">
+                    <span class="energy-emoji">🪫</span><span>Low</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="next-quest" id="next-quest">
+            <span class="next-quest-label">Next up</span>
+            <div class="next-quest-body">
+                <div class="next-quest-info">
+                    <span class="next-quest-tier" id="next-quest-tier">🛡</span>
+                    <span class="next-quest-name" id="next-quest-name">No quests yet</span>
+                </div>
+                <button class="btn-check-big" id="complete-next-quest" aria-label="Complete">✓</button>
+            </div>
+            <p class="next-quest-hint" id="next-quest-hint">Add quests in the Quests tab</p>
+        </div>
+
+        <div class="today-stats" id="today-stats">
+            <div class="stat-chip"><span class="stat-num" id="stat-done">0</span> done</div>
+            <div class="stat-chip">🔥 <span class="stat-num" id="stat-streak">0</span></div>
+            <div class="stat-chip">Lv.<span class="stat-num" id="stat-level">1</span></div>
+            <div class="stat-chip">🪙 <span class="stat-num" id="stat-gold">50</span></div>
+        </div>
+
+        <div class="stuck-buttons">
+            <button class="btn-stuck" id="btn-draw-card">🎲 I'm stuck</button>
+            <button class="btn-stuck btn-emergency" id="btn-supervisor">🛡 Need help</button>
+        </div>
+
+        <div class="drawn-card hidden" id="drawn-card">
+            <div class="drawn-card-inner">
+                <span class="drawn-card-icon" id="drawn-card-icon">🎯</span>
+                <p class="drawn-card-text" id="drawn-card-text">Stand up and stretch</p>
+                <div class="drawn-card-actions">
+                    <button class="btn-pill btn-done" id="drawn-card-done">✓ Did it</button>
+                    <button class="btn-pill btn-ghost" id="drawn-card-redraw">↻ Another</button>
+                    <button class="btn-pill btn-ghost" id="drawn-card-dismiss">✕</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== QUESTS VIEW ========== -->
+    <section class="view" id="view-quests">
+        <div class="view-header">
+            <h1>Quests</h1>
+            <button class="btn-circle" id="add-quest-btn" aria-label="Add quest">+</button>
+        </div>
+
+        <div class="sub-tabs" id="quest-tabs">
+            <button class="sub-tab active" data-qtab="today">Today</button>
+            <button class="sub-tab" data-qtab="habits">Habits</button>
+            <button class="sub-tab" data-qtab="weekly">This Week</button>
+        </div>
+
+        <div class="quest-panel active" id="panel-today">
+            <div id="quest-list-today" class="quest-list"></div>
+            <p class="empty-msg" id="empty-today">No quests for today.<br>Tap + to add one.</p>
+        </div>
+
+        <div class="quest-panel" id="panel-habits">
+            <div id="habit-list" class="quest-list"></div>
+            <p class="empty-msg" id="empty-habits">No habits yet.<br>Tap + to create one.</p>
+        </div>
+
+        <div class="quest-panel" id="panel-weekly">
+            <p class="week-label" id="week-label"></p>
+            <h3 class="section-title">Main Goals</h3>
+            <div id="weekly-main-list" class="quest-list"></div>
+            <h3 class="section-title">Bonus Goals</h3>
+            <div id="weekly-side-list" class="quest-list"></div>
+            <p class="empty-msg" id="empty-weekly">Plan your week.<br>Tap + to add goals.</p>
+        </div>
+    </section>
+
+    <!-- ========== LOG VIEW ========== -->
+    <section class="view" id="view-log">
+        <div class="view-header">
+            <h1>Log</h1>
+            <span class="today-label" id="log-date"></span>
+        </div>
+
+        <div class="log-grid" id="log-grid">
+            <button class="log-btn" data-log="mood">
+                <span class="log-btn-icon">😊</span>
+                <span class="log-btn-label">Mood</span>
+                <span class="log-btn-check hidden" id="log-check-mood">✓</span>
+            </button>
+            <button class="log-btn" data-log="sleep">
+                <span class="log-btn-icon">😴</span>
+                <span class="log-btn-label">Sleep</span>
+                <span class="log-btn-check hidden" id="log-check-sleep">✓</span>
+            </button>
+            <button class="log-btn" data-log="food">
+                <span class="log-btn-icon">🍽</span>
+                <span class="log-btn-label">Food</span>
+                <span class="log-btn-check hidden" id="log-check-food">✓</span>
+            </button>
+            <button class="log-btn" data-log="meds">
+                <span class="log-btn-icon">💊</span>
+                <span class="log-btn-label">Meds</span>
+                <span class="log-btn-check hidden" id="log-check-meds">✓</span>
+            </button>
+            <button class="log-btn" data-log="journal">
+                <span class="log-btn-icon">📝</span>
+                <span class="log-btn-label">Journal</span>
+                <span class="log-btn-check hidden" id="log-check-journal">✓</span>
+            </button>
+            <button class="log-btn" data-log="body">
+                <span class="log-btn-icon">💪</span>
+                <span class="log-btn-label">Body</span>
+                <span class="log-btn-check hidden" id="log-check-body">✓</span>
             </button>
         </div>
-    </aside>
 
-    <!-- Main Content Area -->
-    <main class="main-content" id="main-content">
+        <!-- Mood Panel -->
+        <div class="log-form hidden" id="log-form-mood">
+            <div class="log-form-header">
+                <button class="btn-back" data-log-close>←</button>
+                <h2>😊 Mood Check</h2>
+            </div>
+            <div class="mood-picker" id="mood-picker">
+                <button class="mood-btn" data-mood="1">😫</button>
+                <button class="mood-btn" data-mood="2">😔</button>
+                <button class="mood-btn" data-mood="3">😐</button>
+                <button class="mood-btn" data-mood="4">😊</button>
+                <button class="mood-btn" data-mood="5">😄</button>
+            </div>
+            <textarea class="log-textarea" id="mood-notes" placeholder="What's on your mind? (optional)" rows="3"></textarea>
+            <button class="btn-primary btn-full" id="save-mood">Save</button>
+        </div>
 
-        <!-- ==================== DASHBOARD ==================== -->
-        <section class="page active" id="page-dashboard">
-            <div class="page-header">
-                <h1 class="page-title">⚔ Command Center</h1>
-                <div class="day-status-selector">
-                    <span class="day-label">Today's Energy:</span>
-                    <button class="status-btn green active" data-status="green" title="Energized">🟢 Charged</button>
-                    <button class="status-btn yellow" data-status="yellow" title="Moderate">🟡 Moderate</button>
-                    <button class="status-btn red" data-status="red" title="Low Power">🔴 Low Power</button>
+        <!-- Sleep Panel -->
+        <div class="log-form hidden" id="log-form-sleep">
+            <div class="log-form-header">
+                <button class="btn-back" data-log-close>←</button>
+                <h2>😴 Sleep</h2>
+            </div>
+            <div class="form-row">
+                <div class="form-field"><label>Bedtime</label><input type="time" id="log-bedtime"></div>
+                <div class="form-field"><label>Wake up</label><input type="time" id="log-waketime"></div>
+            </div>
+            <label class="form-label">Quality</label>
+            <div class="mood-picker" id="sleep-quality-picker">
+                <button class="mood-btn" data-val="1">😫</button>
+                <button class="mood-btn" data-val="2">😴</button>
+                <button class="mood-btn" data-val="3">😐</button>
+                <button class="mood-btn" data-val="4">😊</button>
+                <button class="mood-btn" data-val="5">😄</button>
+            </div>
+            <textarea class="log-textarea" id="sleep-notes" placeholder="Notes (optional)" rows="2"></textarea>
+            <button class="btn-primary btn-full" id="save-sleep">Save</button>
+        </div>
+
+        <!-- Food Panel -->
+        <div class="log-form hidden" id="log-form-food">
+            <div class="log-form-header">
+                <button class="btn-back" data-log-close>←</button>
+                <h2>🍽 Food</h2>
+            </div>
+            <div id="meal-entries">
+                <div class="meal-row">
+                    <select class="meal-select"><option>🌅 Breakfast</option><option>☀ Lunch</option><option>🌙 Dinner</option><option>🍿 Snack</option></select>
+                    <input type="text" class="meal-input" placeholder="What did you eat?">
                 </div>
             </div>
-
-            <div class="dashboard-grid">
-                <!-- Physical Stats (Red Bar) -->
-                <div class="card stat-card physical-card">
-                    <h3 class="card-title">❤ Physical (HP)</h3>
-                    <div class="stat-bars">
-                        <div class="stat-row">
-                            <label>Stamina</label>
-                            <input type="range" class="stat-slider hp-slider" data-stat="stamina" min="0" max="100" value="70">
-                            <span class="stat-value">70</span>
-                        </div>
-                        <div class="stat-row">
-                            <label>Diet</label>
-                            <input type="range" class="stat-slider hp-slider" data-stat="diet" min="0" max="100" value="50">
-                            <span class="stat-value">50</span>
-                        </div>
-                        <div class="stat-row">
-                            <label>Sleep</label>
-                            <input type="range" class="stat-slider hp-slider" data-stat="sleep" min="0" max="100" value="60">
-                            <span class="stat-value">60</span>
-                        </div>
-                    </div>
-                    <div class="overall-bar hp-bar">
-                        <div class="bar-track"><div class="bar-fill" id="hp-fill"></div></div>
-                        <span class="bar-label" id="hp-label">60/100</span>
-                    </div>
-                </div>
-
-                <!-- Mental Stats (Blue Bar) -->
-                <div class="card stat-card mental-card">
-                    <h3 class="card-title">💎 Mental (MP)</h3>
-                    <div class="stat-bars">
-                        <div class="stat-row">
-                            <label>Spirit</label>
-                            <input type="range" class="stat-slider mp-slider" data-stat="spirit" min="0" max="100" value="65">
-                            <span class="stat-value">65</span>
-                        </div>
-                        <div class="stat-row">
-                            <label>Focus</label>
-                            <input type="range" class="stat-slider mp-slider" data-stat="focus" min="0" max="100" value="40">
-                            <span class="stat-value">40</span>
-                        </div>
-                        <div class="stat-row">
-                            <label>Mood</label>
-                            <input type="range" class="stat-slider mp-slider" data-stat="mood" min="0" max="100" value="55">
-                            <span class="stat-value">55</span>
-                        </div>
-                    </div>
-                    <div class="overall-bar mp-bar">
-                        <div class="bar-track"><div class="bar-fill" id="mp-fill"></div></div>
-                        <span class="bar-label" id="mp-label">53/100</span>
-                    </div>
-                </div>
-
-                <!-- Active Buffs/Debuffs -->
-                <div class="card buff-card">
-                    <h3 class="card-title">🧪 Active Effects</h3>
-                    <div class="buff-grid" id="buff-grid">
-                        <!-- Populated by JS -->
-                    </div>
-                    <div class="buff-controls">
-                        <select id="buff-select" class="rpg-select">
-                            <option value="">+ Add Effect...</option>
-                            <optgroup label="Buffs ✨">
-                                <option value="caffeinated" data-type="buff">☕ Caffeinated</option>
-                                <option value="well-rested" data-type="buff">😴 Well Rested</option>
-                                <option value="motivated" data-type="buff">🔥 Motivated</option>
-                                <option value="social-boost" data-type="buff">💬 Social Boost</option>
-                                <option value="medicated" data-type="buff">💊 Medicated</option>
-                                <option value="exercise-high" data-type="buff">🏃 Exercise High</option>
-                                <option value="creative-flow" data-type="buff">🎨 Creative Flow</option>
-                                <option value="hyperfocus" data-type="buff">🎯 Hyperfocus</option>
-                            </optgroup>
-                            <optgroup label="Debuffs 💀">
-                                <option value="tired" data-type="debuff">😩 Tired</option>
-                                <option value="hungry" data-type="debuff">🍽 Hungry</option>
-                                <option value="anxious" data-type="debuff">😰 Anxious</option>
-                                <option value="period" data-type="debuff">🩸 Period</option>
-                                <option value="brain-fog" data-type="debuff">🌫 Brain Fog</option>
-                                <option value="overstimulated" data-type="debuff">⚡ Overstimulated</option>
-                                <option value="understimulated" data-type="debuff">😶 Understimulated</option>
-                                <option value="doom-scrolling" data-type="debuff">📱 Doom Scrolling</option>
-                                <option value="paralysis" data-type="debuff">🧊 Action Paralysis</option>
-                            </optgroup>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Quick Actions -->
-                <div class="card action-card">
-                    <h3 class="card-title">⚡ Quick Actions</h3>
-                    <div class="quick-actions">
-                        <button class="action-btn transition-btn" data-action="draw-transition">🎲 Draw Transition Card</button>
-                        <button class="action-btn supervisor-btn" data-action="supervisor-mode">🛡 Activate Supervisor</button>
-                        <button class="action-btn ai-btn" data-action="ai-check-in">🤖 AI Check-In</button>
-                        <button class="action-btn log-btn" data-action="quick-log">📝 Quick Log</button>
-                    </div>
-                </div>
-
-                <!-- Today's Summary -->
-                <div class="card summary-card">
-                    <h3 class="card-title">📊 Today's Summary</h3>
-                    <div class="summary-stats">
-                        <div class="summary-item">
-                            <span class="summary-num" id="tasks-done-today">0</span>
-                            <span class="summary-label">Quests Done</span>
-                        </div>
-                        <div class="summary-item">
-                            <span class="summary-num" id="habits-done-today">0</span>
-                            <span class="summary-label">Cards Played</span>
-                        </div>
-                        <div class="summary-item">
-                            <span class="summary-num" id="xp-earned-today">0</span>
-                            <span class="summary-label">XP Earned</span>
-                        </div>
-                        <div class="summary-item">
-                            <span class="summary-num" id="streak-count">0</span>
-                            <span class="summary-label">Day Streak</span>
-                        </div>
-                    </div>
-                </div>
+            <button class="btn-text" id="add-meal-row">+ Add meal</button>
+            <label class="form-label">Water</label>
+            <div class="water-row" id="water-row">
+                <button class="water-btn" data-cup="1">💧</button>
+                <button class="water-btn" data-cup="2">💧</button>
+                <button class="water-btn" data-cup="3">💧</button>
+                <button class="water-btn" data-cup="4">💧</button>
+                <button class="water-btn" data-cup="5">💧</button>
+                <button class="water-btn" data-cup="6">💧</button>
+                <button class="water-btn" data-cup="7">💧</button>
+                <button class="water-btn" data-cup="8">💧</button>
             </div>
-        </section>
+            <button class="btn-primary btn-full" id="save-food">Save</button>
+        </div>
 
-        <!-- ==================== QUEST BOARD (Daily Tasks) ==================== -->
-        <section class="page" id="page-tasks">
-            <div class="page-header">
-                <h1 class="page-title">⚔ Quest Board</h1>
-                <button class="btn-primary" id="add-task-btn">+ New Quest</button>
+        <!-- Meds Panel -->
+        <div class="log-form hidden" id="log-form-meds">
+            <div class="log-form-header">
+                <button class="btn-back" data-log-close>←</button>
+                <h2>💊 Meds</h2>
             </div>
-
-            <!-- Task Tiers -->
-            <div class="task-columns">
-                <div class="task-column" data-tier="boss">
-                    <div class="column-header boss-header">
-                        <h3>👹 Boss Quests</h3>
-                        <span class="column-desc">Critical / High energy</span>
-                    </div>
-                    <div class="task-list" id="task-list-boss" data-tier="boss"></div>
-                </div>
-                <div class="task-column" data-tier="survival">
-                    <div class="column-header survival-header">
-                        <h3>🛡 Survival Quests</h3>
-                        <span class="column-desc">Essential daily tasks</span>
-                    </div>
-                    <div class="task-list" id="task-list-survival" data-tier="survival"></div>
-                </div>
-                <div class="task-column" data-tier="side">
-                    <div class="column-header side-header">
-                        <h3>📦 Side Quests</h3>
-                        <span class="column-desc">Optional / Low energy</span>
-                    </div>
-                    <div class="task-list" id="task-list-side" data-tier="side"></div>
-                </div>
+            <div id="meds-checklist" class="meds-list"></div>
+            <div class="add-inline-row">
+                <input type="text" id="new-med-name" placeholder="Medication name">
+                <input type="text" id="new-med-time" placeholder="Time">
+                <button class="btn-circle btn-sm" id="add-med-btn">+</button>
             </div>
+            <button class="btn-primary btn-full" id="save-meds">Save</button>
+        </div>
 
-            <!-- Add Task Modal -->
-            <div class="modal" id="task-modal">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h2>New Quest</h2>
-                        <button class="modal-close">&times;</button>
-                    </div>
-                    <form id="task-form">
-                        <div class="form-group">
-                            <label>Quest Name</label>
-                            <input type="text" id="task-name" placeholder="What needs to be done?" required>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Tier</label>
-                                <select id="task-tier" class="rpg-select">
-                                    <option value="boss">👹 Boss (Critical)</option>
-                                    <option value="survival">🛡 Survival (Essential)</option>
-                                    <option value="side" selected>📦 Side (Optional)</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Energy Cost</label>
-                                <select id="task-energy" class="rpg-select">
-                                    <option value="1">⚡ Low</option>
-                                    <option value="2" selected>⚡⚡ Medium</option>
-                                    <option value="3">⚡⚡⚡ High</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>XP Reward</label>
-                                <input type="number" id="task-xp" value="10" min="1" max="100">
-                            </div>
-                            <div class="form-group">
-                                <label>Gold Reward</label>
-                                <input type="number" id="task-gold" value="5" min="0" max="100">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Notes</label>
-                            <textarea id="task-notes" placeholder="Any details..." rows="2"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label class="checkbox-label">
-                                <input type="checkbox" id="task-transition"> Also add as Transition Card
-                            </label>
-                        </div>
-                        <button type="submit" class="btn-primary btn-full">Create Quest</button>
-                    </form>
-                </div>
+        <!-- Journal Panel -->
+        <div class="log-form hidden" id="log-form-journal">
+            <div class="log-form-header">
+                <button class="btn-back" data-log-close>←</button>
+                <h2>📝 Journal</h2>
             </div>
-        </section>
+            <textarea class="log-textarea log-textarea-lg" id="journal-entry" placeholder="Free write. No rules. Just get it out." rows="10"></textarea>
+            <button class="btn-primary btn-full" id="save-journal">Save</button>
+        </div>
 
-        <!-- ==================== VAULT (Backlog / Someday) ==================== -->
-        <section class="page" id="page-backlog">
-            <div class="page-header">
-                <h1 class="page-title">📦 The Vault</h1>
-                <span class="page-subtitle">Things for "someday" — AI will remind you weekly</span>
-                <button class="btn-primary" id="add-backlog-btn">+ Store Item</button>
+        <!-- Body Panel -->
+        <div class="log-form hidden" id="log-form-body">
+            <div class="log-form-header">
+                <button class="btn-back" data-log-close>←</button>
+                <h2>💪 Body</h2>
             </div>
+            <div class="form-field"><label>Weight (kg)</label><input type="number" id="log-weight" step="0.1" placeholder="Optional"></div>
+            <div class="form-field"><label>Pain / discomfort</label><input type="text" id="log-pain" placeholder="e.g., headache, back pain"></div>
+            <div class="form-field"><label>Exercise</label><input type="text" id="log-exercise" placeholder="e.g., walked 20 min"></div>
+            <button class="btn-primary btn-full" id="save-body">Save</button>
+        </div>
+    </section>
 
-            <div class="backlog-filters">
-                <button class="filter-btn active" data-filter="all">All</button>
-                <button class="filter-btn" data-filter="action">🔧 Actions</button>
-                <button class="filter-btn" data-filter="project">📁 Projects</button>
-                <button class="filter-btn" data-filter="wishlist">⭐ Wishlist</button>
-                <button class="filter-btn" data-filter="media">🎬 Media</button>
+    <!-- ========== ME VIEW ========== -->
+    <section class="view" id="view-me">
+        <div class="me-profile">
+            <div class="me-avatar" id="me-avatar">🧙</div>
+            <h2 class="me-name" id="me-name">Wanderer</h2>
+            <span class="me-class" id="me-class">Ranger</span>
+            <div class="me-xp-bar">
+                <div class="xp-track"><div class="xp-fill" id="me-xp-fill"></div></div>
+                <span class="xp-label" id="me-xp-label">0 / 100 XP</span>
             </div>
-
-            <div class="backlog-list" id="backlog-list"></div>
-
-            <!-- Add Backlog Modal -->
-            <div class="modal" id="backlog-modal">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h2>Store in Vault</h2>
-                        <button class="modal-close">&times;</button>
-                    </div>
-                    <form id="backlog-form">
-                        <div class="form-group">
-                            <label>Item Name</label>
-                            <input type="text" id="backlog-name" placeholder="What to remember for later?" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Category</label>
-                            <select id="backlog-category" class="rpg-select">
-                                <option value="action">🔧 Action (e.g., assemble chair)</option>
-                                <option value="project">📁 Project (e.g., write novel)</option>
-                                <option value="wishlist">⭐ Wishlist (e.g., buy something)</option>
-                                <option value="media">🎬 Media (e.g., watch/read)</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Notes</label>
-                            <textarea id="backlog-notes" placeholder="Details..." rows="2"></textarea>
-                        </div>
-                        <button type="submit" class="btn-primary btn-full">Store Item</button>
-                    </form>
-                </div>
-            </div>
-        </section>
-
-        <!-- ==================== WEEKLY PLAN ==================== -->
-        <section class="page" id="page-weekly">
-            <div class="page-header">
-                <h1 class="page-title">📜 Weekly Campaign</h1>
-                <span class="page-subtitle" id="week-range"></span>
-            </div>
-
-            <div class="weekly-grid">
-                <div class="weekly-section">
-                    <div class="section-header main-quest-header">
-                        <h3>⚔ Main Quests</h3>
-                        <span>Primary objectives this week</span>
-                    </div>
-                    <div class="weekly-list" id="weekly-main-list"></div>
-                    <button class="btn-add-inline" id="add-weekly-main">+ Add Main Quest</button>
-                </div>
-                <div class="weekly-section">
-                    <div class="section-header side-quest-header">
-                        <h3>📦 Side Quests</h3>
-                        <span>Bonus objectives / achievements</span>
-                    </div>
-                    <div class="weekly-list" id="weekly-side-list"></div>
-                    <button class="btn-add-inline" id="add-weekly-side">+ Add Side Quest</button>
-                </div>
-            </div>
-
-            <div class="weekly-review-section">
-                <h3>📋 Weekly Review</h3>
-                <textarea id="weekly-review" class="review-textarea" placeholder="End-of-week thoughts, wins, lessons learned..."></textarea>
-                <button class="btn-primary" id="save-weekly-review">Save Review</button>
-            </div>
-        </section>
-
-        <!-- ==================== HABIT CARDS ==================== -->
-        <section class="page" id="page-habits">
-            <div class="page-header">
-                <h1 class="page-title">🃏 Habit Card Deck</h1>
-                <button class="btn-primary" id="add-habit-btn">+ New Card</button>
-            </div>
-
-            <div class="habit-tiers">
-                <div class="habit-tier">
-                    <h3 class="tier-label">⚔ Main Habits</h3>
-                    <div class="habit-cards" id="habit-cards-main"></div>
-                </div>
-                <div class="habit-tier">
-                    <h3 class="tier-label">🛡 Survival Habits</h3>
-                    <div class="habit-cards" id="habit-cards-survival"></div>
-                </div>
-                <div class="habit-tier">
-                    <h3 class="tier-label">📦 Light Habits</h3>
-                    <div class="habit-cards" id="habit-cards-light"></div>
-                </div>
-            </div>
-
-            <div class="combo-display" id="combo-display">
-                <span class="combo-label">🔥 Combo</span>
-                <span class="combo-count" id="combo-count">0</span>
-                <span class="combo-bonus" id="combo-bonus"></span>
-            </div>
-
-            <!-- Add Habit Modal -->
-            <div class="modal" id="habit-modal">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h2>New Habit Card</h2>
-                        <button class="modal-close">&times;</button>
-                    </div>
-                    <form id="habit-form">
-                        <div class="form-group">
-                            <label>Habit Name</label>
-                            <input type="text" id="habit-name" placeholder="e.g., Morning stretch" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Tier</label>
-                            <select id="habit-tier" class="rpg-select">
-                                <option value="main">⚔ Main (Weekly focus)</option>
-                                <option value="survival">🛡 Survival (Daily basics)</option>
-                                <option value="light" selected>📦 Light (Easy wins)</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>XP per completion</label>
-                            <input type="number" id="habit-xp" value="5" min="1" max="50">
-                        </div>
-                        <div class="form-group">
-                            <label>Icon (emoji)</label>
-                            <input type="text" id="habit-icon" value="✨" maxlength="2">
-                        </div>
-                        <button type="submit" class="btn-primary btn-full">Create Card</button>
-                    </form>
-                </div>
-            </div>
-        </section>
-
-        <!-- ==================== TRANSITION CARDS ==================== -->
-        <section class="page" id="page-transition">
-            <div class="page-header">
-                <h1 class="page-title">🎲 Transition Cards</h1>
-                <span class="page-subtitle">Stuck? Draw a card. Do the thing.</span>
-            </div>
-
-            <div class="transition-area">
-                <div class="drawn-card-display" id="drawn-card-display">
-                    <div class="card-back" id="card-back">
-                        <span class="card-back-icon">?</span>
-                        <span class="card-back-text">Draw a Card</span>
-                    </div>
-                    <div class="card-front hidden" id="card-front">
-                        <span class="card-front-icon" id="card-front-icon">🎯</span>
-                        <span class="card-front-text" id="card-front-text">...</span>
-                        <button class="btn-small" id="complete-drawn-card">✓ Done!</button>
-                        <button class="btn-small btn-ghost" id="redraw-card">↻ Redraw</button>
-                    </div>
-                </div>
-                <button class="btn-primary btn-large draw-btn" id="draw-transition-btn">🎲 Draw Random Card</button>
-            </div>
-
-            <div class="transition-pool">
-                <h3>Card Pool</h3>
-                <div class="transition-cards-list" id="transition-cards-list"></div>
-                <button class="btn-add-inline" id="add-transition-btn">+ Add Card</button>
-            </div>
-
-            <!-- Add Transition Modal -->
-            <div class="modal" id="transition-modal">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h2>New Transition Card</h2>
-                        <button class="modal-close">&times;</button>
-                    </div>
-                    <form id="transition-form">
-                        <div class="form-group">
-                            <label>Action</label>
-                            <input type="text" id="transition-name" placeholder="e.g., Take out trash, Gaze into distance 1 min" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Icon</label>
-                            <input type="text" id="transition-icon" value="🎯" maxlength="2">
-                        </div>
-                        <button type="submit" class="btn-primary btn-full">Add Card</button>
-                    </form>
-                </div>
-            </div>
-        </section>
-
-        <!-- ==================== SUPERVISOR MODE ==================== -->
-        <section class="page" id="page-supervisor">
-            <div class="page-header">
-                <h1 class="page-title">🛡 Supervisor Mode</h1>
-                <span class="page-subtitle">Override engaged. Listen to the commands.</span>
-            </div>
-
-            <div class="supervisor-area">
-                <div class="supervisor-status" id="supervisor-status">
-                    <div class="supervisor-inactive">
-                        <div class="supervisor-icon">🛡</div>
-                        <h2>Supervisor Mode is Off</h2>
-                        <p>Activate when you're stuck, spiraling, or paralyzed.<br>The AI will take over and give you direct commands.</p>
-                        <button class="btn-danger btn-large" id="activate-supervisor">⚡ ACTIVATE SUPERVISOR</button>
-                    </div>
-                </div>
-
-                <div class="supervisor-active hidden" id="supervisor-active">
-                    <div class="command-display" id="command-display">
-                        <div class="command-text" id="command-text">Stop thinking.</div>
-                        <div class="command-sub" id="command-sub">Stand up.</div>
-                    </div>
-                    <div class="supervisor-controls">
-                        <button class="btn-large btn-success" id="command-done">✓ DONE</button>
-                        <button class="btn-large btn-ghost" id="command-skip">SKIP</button>
-                        <button class="btn-danger" id="deactivate-supervisor">✕ Deactivate</button>
-                    </div>
-                    <div class="command-queue" id="command-queue"></div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ==================== CAMPFIRE LOG (Records) ==================== -->
-        <section class="page" id="page-records">
-            <div class="page-header">
-                <h1 class="page-title">🔥 Campfire Log</h1>
-                <span class="page-subtitle">Rest, record, reflect.</span>
-            </div>
-
-            <div class="records-tabs">
-                <button class="tab-btn active" data-tab="daily-log">📝 Daily Log</button>
-                <button class="tab-btn" data-tab="sleep-log">😴 Sleep</button>
-                <button class="tab-btn" data-tab="diet-log">🍽 Diet</button>
-                <button class="tab-btn" data-tab="meds-log">💊 Meds</button>
-                <button class="tab-btn" data-tab="journal">📖 Journal</button>
-                <button class="tab-btn" data-tab="history">📜 History</button>
-            </div>
-
-            <!-- Daily Log Tab -->
-            <div class="tab-content active" id="tab-daily-log">
-                <div class="log-form">
-                    <div class="form-group">
-                        <label>Today's Recap</label>
-                        <textarea id="daily-recap" rows="4" placeholder="What happened today? Just dump it here — AI can sort it later."></textarea>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Weight (kg)</label>
-                            <input type="number" id="log-weight" step="0.1" placeholder="--">
-                        </div>
-                        <div class="form-group">
-                            <label>Pain Points</label>
-                            <input type="text" id="log-pain" placeholder="e.g., headache, back pain">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Upload Photo / Screenshot</label>
-                        <div class="upload-area" id="upload-area">
-                            <span>📷 Click or drag to upload</span>
-                            <input type="file" id="log-photo" accept="image/*" multiple>
-                        </div>
-                        <div class="uploaded-previews" id="uploaded-previews"></div>
-                    </div>
-                    <button class="btn-primary" id="save-daily-log">Save Log Entry</button>
-                </div>
-            </div>
-
-            <!-- Sleep Log Tab -->
-            <div class="tab-content" id="tab-sleep-log">
-                <div class="log-form">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Bedtime</label>
-                            <input type="time" id="log-bedtime">
-                        </div>
-                        <div class="form-group">
-                            <label>Wake Time</label>
-                            <input type="time" id="log-waketime">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Sleep Quality</label>
-                        <div class="quality-picker" id="sleep-quality">
-                            <button class="quality-btn" data-val="1">😫</button>
-                            <button class="quality-btn" data-val="2">😴</button>
-                            <button class="quality-btn" data-val="3">😐</button>
-                            <button class="quality-btn" data-val="4">😊</button>
-                            <button class="quality-btn" data-val="5">😄</button>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Notes</label>
-                        <textarea id="sleep-notes" rows="2" placeholder="Dreams, interruptions, etc."></textarea>
-                    </div>
-                    <button class="btn-primary" id="save-sleep-log">Save Sleep Log</button>
-                </div>
-            </div>
-
-            <!-- Diet Log Tab -->
-            <div class="tab-content" id="tab-diet-log">
-                <div class="log-form">
-                    <div class="meal-entries" id="meal-entries">
-                        <div class="meal-entry">
-                            <select class="rpg-select meal-type">
-                                <option value="breakfast">🌅 Breakfast</option>
-                                <option value="lunch">☀ Lunch</option>
-                                <option value="dinner">🌙 Dinner</option>
-                                <option value="snack">🍿 Snack</option>
-                            </select>
-                            <input type="text" class="meal-desc" placeholder="What did you eat?">
-                        </div>
-                    </div>
-                    <button class="btn-add-inline" id="add-meal">+ Add Meal</button>
-                    <div class="form-group" style="margin-top: 1rem">
-                        <label>Water Intake</label>
-                        <div class="water-tracker" id="water-tracker">
-                            <button class="water-btn" data-cup="1">💧</button>
-                            <button class="water-btn" data-cup="2">💧</button>
-                            <button class="water-btn" data-cup="3">💧</button>
-                            <button class="water-btn" data-cup="4">💧</button>
-                            <button class="water-btn" data-cup="5">💧</button>
-                            <button class="water-btn" data-cup="6">💧</button>
-                            <button class="water-btn" data-cup="7">💧</button>
-                            <button class="water-btn" data-cup="8">💧</button>
-                        </div>
-                    </div>
-                    <button class="btn-primary" id="save-diet-log">Save Diet Log</button>
-                </div>
-            </div>
-
-            <!-- Meds Log Tab -->
-            <div class="tab-content" id="tab-meds-log">
-                <div class="log-form">
-                    <div class="meds-list" id="meds-checklist"></div>
-                    <div class="form-group">
-                        <label>Add Medication</label>
-                        <div class="form-row">
-                            <input type="text" id="new-med-name" placeholder="Medication name">
-                            <input type="text" id="new-med-time" placeholder="Time (e.g., morning)">
-                            <button class="btn-small" id="add-med-btn">+</button>
-                        </div>
-                    </div>
-                    <button class="btn-primary" id="save-meds-log">Save Meds Log</button>
-                </div>
-            </div>
-
-            <!-- Journal Tab -->
-            <div class="tab-content" id="tab-journal">
-                <div class="log-form">
-                    <textarea id="journal-entry" rows="10" placeholder="Free write. No rules. Just write."></textarea>
-                    <button class="btn-primary" id="save-journal">Save Journal Entry</button>
-                </div>
-            </div>
-
-            <!-- History Tab -->
-            <div class="tab-content" id="tab-history">
-                <div class="history-list" id="history-list">
-                    <p class="empty-state">Previous log entries will appear here.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- ==================== SHOP & RPG ==================== -->
-        <section class="page" id="page-shop">
-            <div class="page-header">
-                <h1 class="page-title">🏪 Adventurer's Guild</h1>
-            </div>
-
-            <div class="shop-layout">
-                <!-- Character Panel -->
-                <div class="card character-panel">
-                    <div class="character-display">
-                        <div class="character-avatar" id="character-avatar">🧙</div>
-                        <div class="character-info">
-                            <h3 id="char-name">Wanderer</h3>
-                            <span id="char-class">Ranger</span>
-                            <div class="char-level">Level <span id="char-level">1</span></div>
-                            <div class="char-xp-bar">
-                                <div class="bar-track"><div class="bar-fill" id="char-xp-fill"></div></div>
-                                <span id="char-xp-label">0 / 100 XP</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="equipped-items" id="equipped-items">
-                        <h4>Equipped</h4>
-                        <div class="equip-slots">
-                            <div class="equip-slot" data-slot="weapon">
-                                <span class="slot-label">Weapon</span>
-                                <span class="slot-item" id="slot-weapon">🗡 Starter Blade</span>
-                            </div>
-                            <div class="equip-slot" data-slot="armor">
-                                <span class="slot-label">Armor</span>
-                                <span class="slot-item" id="slot-armor">👘 Worn Cloak</span>
-                            </div>
-                            <div class="equip-slot" data-slot="accessory">
-                                <span class="slot-label">Accessory</span>
-                                <span class="slot-item" id="slot-accessory">📿 Lucky Charm</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Shop Items -->
-                <div class="card shop-panel">
-                    <h3>🛒 Shop</h3>
-                    <div class="shop-items" id="shop-items"></div>
-                </div>
-
-                <!-- Inventory -->
-                <div class="card inventory-panel">
-                    <h3>🎒 Inventory</h3>
-                    <div class="inventory-grid" id="inventory-grid"></div>
-                </div>
-
-                <!-- Adventure Log -->
-                <div class="card adventure-panel">
-                    <h3>📖 Adventure Log</h3>
-                    <div class="adventure-log" id="adventure-log">
-                        <div class="log-entry">
-                            <span class="log-time">Dawn</span>
-                            <span class="log-text">A new day begins. The wanderer awakens...</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Achievements -->
-                <div class="card achievements-panel">
-                    <h3>🏆 Achievements</h3>
-                    <div class="achievements-grid" id="achievements-grid"></div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ==================== AI COMPANION ==================== -->
-        <section class="page" id="page-ai">
-            <div class="page-header">
-                <h1 class="page-title">🤖 AI Companion</h1>
-                <span class="page-subtitle">Your party member. Talk, ask, or just vent.</span>
-            </div>
-
-            <div class="ai-chat-area">
-                <div class="chat-messages" id="chat-messages">
-                    <div class="chat-msg ai">
-                        <div class="chat-avatar">🤖</div>
-                        <div class="chat-bubble">
-                            <p>Hey, adventurer. I'm your AI companion. Tell me what's going on — I can help sort tasks, check your status, fill in logs, or just listen. What's up?</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="chat-input-area">
-                    <div class="chat-tools">
-                        <button class="chat-tool-btn" id="voice-input-btn" title="Voice input">🎤</button>
-                        <button class="chat-tool-btn" id="image-upload-btn" title="Upload image">📷</button>
-                        <input type="file" id="ai-image-input" accept="image/*" hidden>
-                    </div>
-                    <textarea id="chat-input" placeholder="Tell me what's happening..." rows="1"></textarea>
-                    <button class="btn-primary chat-send" id="chat-send">Send</button>
-                </div>
-                <div class="ai-quick-prompts">
-                    <button class="quick-prompt" data-prompt="status">📊 Check my status</button>
-                    <button class="quick-prompt" data-prompt="suggest">🎯 What should I do now?</button>
-                    <button class="quick-prompt" data-prompt="review">📝 Generate daily review</button>
-                    <button class="quick-prompt" data-prompt="comfort">💆 I need comfort</button>
-                    <button class="quick-prompt" data-prompt="vault">📦 Pick from vault</button>
-                </div>
-            </div>
-        </section>
-
-    </main>
-
-    <!-- Settings Modal -->
-    <div class="modal" id="settings-modal">
-        <div class="modal-content modal-large">
-            <div class="modal-header">
-                <h2>⚙ Settings</h2>
-                <button class="modal-close">&times;</button>
-            </div>
-            <div class="settings-form">
-                <div class="form-group">
-                    <label>Character Name</label>
-                    <input type="text" id="setting-name" placeholder="Your adventurer name">
-                </div>
-                <div class="form-group">
-                    <label>Class</label>
-                    <select id="setting-class" class="rpg-select">
-                        <option value="ranger">🏹 Ranger</option>
-                        <option value="mage">🧙 Mage</option>
-                        <option value="warrior">⚔ Warrior</option>
-                        <option value="rogue">🗡 Rogue</option>
-                        <option value="healer">💚 Healer</option>
-                        <option value="bard">🎵 Bard</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>AI API Key (OpenAI compatible)</label>
-                    <input type="password" id="setting-api-key" placeholder="sk-...">
-                    <small>Stored locally. Never sent anywhere except the AI API.</small>
-                </div>
-                <div class="form-group">
-                    <label>AI API Endpoint</label>
-                    <input type="text" id="setting-api-url" placeholder="https://api.openai.com/v1/chat/completions">
-                </div>
-                <div class="form-group">
-                    <label>AI Model</label>
-                    <input type="text" id="setting-model" placeholder="gpt-4o-mini" value="gpt-4o-mini">
-                </div>
-                <div class="form-group">
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="setting-sound"> Enable sound effects
-                    </label>
-                </div>
-                <div class="form-group">
-                    <label>Export / Import Data</label>
-                    <div class="form-row">
-                        <button class="btn-primary" id="export-data">📤 Export All Data</button>
-                        <button class="btn-primary" id="import-data">📥 Import Data</button>
-                        <input type="file" id="import-file" accept=".json" hidden>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <button class="btn-danger" id="reset-all">⚠ Reset All Data</button>
-                </div>
-                <button class="btn-primary btn-full" id="save-settings">Save Settings</button>
+            <div class="me-stats-row">
+                <span class="me-stat">🪙 <span id="me-gold">50</span></span>
+                <span class="me-stat">⭐ Lv.<span id="me-level">1</span></span>
+                <span class="me-stat">🔥 <span id="me-streak">0</span> day</span>
             </div>
         </div>
+
+        <div class="me-menu">
+            <button class="me-menu-item" data-panel="ai"><span class="mi-icon">🤖</span><span>AI Companion</span><span class="mi-arrow">›</span></button>
+            <button class="me-menu-item" data-panel="vault"><span class="mi-icon">📦</span><span>Vault</span><span class="mi-arrow">›</span></button>
+            <button class="me-menu-item" data-panel="shop"><span class="mi-icon">🏪</span><span>Shop</span><span class="mi-arrow">›</span></button>
+            <button class="me-menu-item" data-panel="achievements"><span class="mi-icon">🏆</span><span>Achievements</span><span class="mi-arrow">›</span></button>
+            <button class="me-menu-item" data-panel="history"><span class="mi-icon">📜</span><span>History</span><span class="mi-arrow">›</span></button>
+            <button class="me-menu-item" data-panel="settings"><span class="mi-icon">⚙️</span><span>Settings</span><span class="mi-arrow">›</span></button>
+        </div>
+    </section>
+
+</main>
+
+<!-- ========== BOTTOM NAV ========== -->
+<nav class="bottom-nav" id="bottom-nav">
+    <button class="nav-tab active" data-view="now"><span class="nav-icon">🏠</span><span class="nav-label">Now</span></button>
+    <button class="nav-tab" data-view="quests"><span class="nav-icon">⚔️</span><span class="nav-label">Quests</span></button>
+    <button class="nav-tab" data-view="log"><span class="nav-icon">📝</span><span class="nav-label">Log</span></button>
+    <button class="nav-tab" data-view="me"><span class="nav-icon">👤</span><span class="nav-label">Me</span></button>
+</nav>
+
+<!-- ========== OVERLAYS ========== -->
+
+<!-- Supervisor Mode -->
+<div class="overlay hidden" id="supervisor-overlay">
+    <div class="overlay-content">
+        <div class="supervisor-brand">🛡 Supervisor Mode</div>
+        <div class="command-card" id="command-card">
+            <p class="command-main" id="command-main">Stop thinking.</p>
+            <p class="command-sub" id="command-sub">Stand up from your chair.</p>
+        </div>
+        <div class="supervisor-btns">
+            <button class="btn-primary btn-lg" id="command-done-btn">✓ Done</button>
+            <button class="btn-ghost btn-lg" id="command-skip-btn">Skip</button>
+        </div>
+        <button class="btn-text" id="exit-supervisor">✕ Exit Supervisor</button>
     </div>
+</div>
 
-    <!-- Toast Notifications -->
-    <div class="toast-container" id="toast-container"></div>
+<!-- Add Quest/Habit/Weekly Modal -->
+<div class="modal hidden" id="add-modal">
+    <div class="modal-sheet">
+        <div class="modal-handle"></div>
+        <h2 id="add-modal-title">New Quest</h2>
+        <form id="add-form">
+            <div class="form-field">
+                <label>What needs doing?</label>
+                <input type="text" id="add-name" placeholder="e.g., Email the landlord" required autocomplete="off">
+            </div>
+            <div class="form-field" id="add-type-field">
+                <label>Priority</label>
+                <div class="type-selector" id="type-selector">
+                    <button type="button" class="type-opt" data-type="boss">👹 Important</button>
+                    <button type="button" class="type-opt active" data-type="survival">🛡 Essential</button>
+                    <button type="button" class="type-opt" data-type="side">📦 Optional</button>
+                </div>
+            </div>
+            <input type="hidden" id="add-tier" value="survival">
+            <input type="hidden" id="add-mode" value="task">
+            <button type="submit" class="btn-primary btn-full btn-lg">Add</button>
+        </form>
+    </div>
+</div>
 
-    <!-- Scripts -->
-    <script src="js/store.js"></script>
-    <script src="js/particles.js"></script>
-    <script src="js/dashboard.js"></script>
-    <script src="js/tasks.js"></script>
-    <script src="js/backlog.js"></script>
-    <script src="js/weekly.js"></script>
-    <script src="js/habits.js"></script>
-    <script src="js/transition.js"></script>
-    <script src="js/supervisor.js"></script>
-    <script src="js/records.js"></script>
-    <script src="js/shop.js"></script>
-    <script src="js/ai.js"></script>
-    <script src="js/app.js"></script>
+<!-- AI Chat Panel -->
+<div class="panel hidden" id="ai-panel">
+    <div class="panel-header">
+        <button class="btn-back" id="ai-back">←</button>
+        <h2>🤖 AI Companion</h2>
+    </div>
+    <div class="chat-messages" id="chat-messages">
+        <div class="chat-msg ai"><div class="chat-bubble">Hey, adventurer. What's going on?</div></div>
+    </div>
+    <div class="quick-prompts">
+        <button class="qp-btn" data-prompt="status">📊 Status</button>
+        <button class="qp-btn" data-prompt="suggest">🎯 Suggest</button>
+        <button class="qp-btn" data-prompt="review">📝 Review</button>
+        <button class="qp-btn" data-prompt="comfort">💆 Comfort</button>
+    </div>
+    <div class="chat-input-row">
+        <textarea id="chat-input" placeholder="Tell me what's happening..." rows="1"></textarea>
+        <button class="btn-primary" id="chat-send">Send</button>
+    </div>
+</div>
+
+<!-- Vault Panel -->
+<div class="panel hidden" id="vault-panel">
+    <div class="panel-header">
+        <button class="btn-back" id="vault-back">←</button>
+        <h2>📦 Vault</h2>
+        <button class="btn-circle btn-sm" id="add-vault-btn">+</button>
+    </div>
+    <div class="vault-filters">
+        <button class="filter-chip active" data-filter="all">All</button>
+        <button class="filter-chip" data-filter="action">🔧</button>
+        <button class="filter-chip" data-filter="project">📁</button>
+        <button class="filter-chip" data-filter="wishlist">⭐</button>
+        <button class="filter-chip" data-filter="media">🎬</button>
+    </div>
+    <div id="vault-list" class="item-list"></div>
+</div>
+
+<!-- Add Vault Item Modal -->
+<div class="modal hidden" id="vault-modal">
+    <div class="modal-sheet">
+        <div class="modal-handle"></div>
+        <h2>Store in Vault</h2>
+        <form id="vault-form">
+            <div class="form-field"><label>Item Name</label><input type="text" id="vault-name" placeholder="What to remember for later?" required></div>
+            <div class="form-field">
+                <label>Category</label>
+                <select id="vault-category">
+                    <option value="action">🔧 Action</option>
+                    <option value="project">📁 Project</option>
+                    <option value="wishlist">⭐ Wishlist</option>
+                    <option value="media">🎬 Media</option>
+                </select>
+            </div>
+            <div class="form-field"><label>Notes</label><textarea id="vault-notes" placeholder="Details..." rows="2"></textarea></div>
+            <button type="submit" class="btn-primary btn-full btn-lg">Store</button>
+        </form>
+    </div>
+</div>
+
+<!-- Shop Panel -->
+<div class="panel hidden" id="shop-panel">
+    <div class="panel-header">
+        <button class="btn-back" id="shop-back">←</button>
+        <h2>🏪 Shop</h2>
+        <span class="gold-badge" id="shop-gold">🪙 50</span>
+    </div>
+    <div id="shop-list" class="item-list"></div>
+</div>
+
+<!-- Achievements Panel -->
+<div class="panel hidden" id="achievements-panel">
+    <div class="panel-header">
+        <button class="btn-back" id="achievements-back">←</button>
+        <h2>🏆 Achievements</h2>
+    </div>
+    <div id="achievements-list" class="achievements-grid"></div>
+</div>
+
+<!-- History Panel -->
+<div class="panel hidden" id="history-panel">
+    <div class="panel-header">
+        <button class="btn-back" id="history-back">←</button>
+        <h2>📜 History</h2>
+    </div>
+    <div id="history-list" class="history-list"></div>
+</div>
+
+<!-- Settings Panel -->
+<div class="panel hidden" id="settings-panel">
+    <div class="panel-header">
+        <button class="btn-back" id="settings-back">←</button>
+        <h2>⚙ Settings</h2>
+    </div>
+    <div class="settings-body">
+        <div class="form-field"><label>Character Name</label><input type="text" id="setting-name" placeholder="Your name"></div>
+        <div class="form-field">
+            <label>Class</label>
+            <select id="setting-class">
+                <option value="ranger">🏹 Ranger</option><option value="mage">🧙 Mage</option>
+                <option value="warrior">⚔ Warrior</option><option value="rogue">🗡 Rogue</option>
+                <option value="healer">💚 Healer</option><option value="bard">🎵 Bard</option>
+            </select>
+        </div>
+        <div class="form-field">
+            <label>Theme</label>
+            <div class="theme-toggle" id="theme-toggle">
+                <button class="theme-opt active" data-theme="light">☀ Light</button>
+                <button class="theme-opt" data-theme="dark">🌙 Dark</button>
+            </div>
+        </div>
+        <hr>
+        <div class="form-field"><label>AI API Key</label><input type="password" id="setting-api-key" placeholder="sk-..."><small>Stored locally only.</small></div>
+        <div class="form-field"><label>API Endpoint</label><input type="text" id="setting-api-url" placeholder="https://api.openai.com/v1/chat/completions"></div>
+        <div class="form-field"><label>Model</label><input type="text" id="setting-model" placeholder="gpt-4o-mini"></div>
+        <hr>
+        <div class="form-field">
+            <label>Transition Cards</label>
+            <div id="transition-cards-edit" class="tags-list"></div>
+            <div class="add-inline-row">
+                <input type="text" id="new-card-name" placeholder="New card action">
+                <button class="btn-circle btn-sm" id="add-card-btn" type="button">+</button>
+            </div>
+        </div>
+        <hr>
+        <div class="settings-actions">
+            <button class="btn-primary" id="export-data">📤 Export</button>
+            <button class="btn-primary" id="import-data">📥 Import</button>
+            <input type="file" id="import-file" accept=".json" hidden>
+        </div>
+        <button class="btn-danger btn-full" id="reset-all">Reset All Data</button>
+        <button class="btn-primary btn-full" id="save-settings">Save Settings</button>
+    </div>
+</div>
+
+<!-- Toast -->
+<div class="toast-container" id="toast-container"></div>
+
+<!-- Scripts -->
+<script src="js/store.js"></script>
+<script src="js/app.js"></script>
+<script src="js/now.js"></script>
+<script src="js/quests.js"></script>
+<script src="js/log.js"></script>
+<script src="js/me.js"></script>
+<script src="js/overlays.js"></script>
+
 </body>
 </html>
